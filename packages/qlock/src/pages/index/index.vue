@@ -14,7 +14,9 @@
         </div>
       </div>
     </div>
-    <div class="about" v-show="show">qlockminip@163.com => 持续开发敬请关注</div>
+    <div class="about" v-show="show">
+      qlockminip@163.com => 持续开发敬请关注
+    </div>
     <div class="about" v-show="!show"></div>
   </div>
 </template>
@@ -155,7 +157,11 @@ export default {
       if (hour < 12) {
         this.active.state = "am";
         this.$set(this.white, 0, [1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0]);
-        this.active.outHour = hour;
+        if (hour === 0) {
+          this.active.outHour = 12;
+        } else {
+          this.active.outHour = hour;
+        }
       } else if (hour === 12) {
         this.active.state = "pm";
         this.$set(this.white, 0, [1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1]);
