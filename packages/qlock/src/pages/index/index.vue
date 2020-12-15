@@ -1,125 +1,574 @@
 <template>
-  <div @click="clickHandle">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+  <div id="appClock" @click="showMail()">
+    <div class="main">
+      <div class="clock-wrapper">
+        <div class="clock-row" v-for="(item, idx) in matrix" :key="item + idx">
+          <div
+            class="clock"
+            v-for="(letter, index) in item"
+            :key="letter + index"
+            :class="{ white: white[idx][index] === 1 }"
+          >
+            {{ letter }}
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" :value="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-
-    <div class="all">
-        <div class="left">
-        </div>
-        <div class="right">
-        </div>
-    </div>
+    <div class="about" v-show="show">qlockminip@163.com => 持续开发敬请关注</div>
+    <div class="about" v-show="!show"></div>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-
+let interval;
 export default {
-  data () {
+  data() {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
-    }
+      show: false,
+      origin: [
+        "itlisasampm",
+        "acquarterdc",
+        "twentyfivex",
+        "halfstenfto",
+        "pasterunine",
+        "onesixthree",
+        "fourfivetwo",
+        "eighteleven",
+        "seventwelve",
+        "tenseoclock",
+      ],
+      white: new Array(10).fill(new Array(11).fill(0)),
+      active: {
+        min: "",
+        prep: "",
+        outHour: "",
+        state: "",
+      },
+      minT: "",
+    };
   },
-
-  components: {
-    card
+  created() {
+    // for (let i = 0; i < 10; i++) {
+    // 	this.white[i] = new Array(11).fill(0);
+    // }
   },
-
+  mounted() {
+    interval = setInterval(() => {
+      this.minT = new Date().getMinutes();
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(interval);
+  },
+  computed: {
+    matrix() {
+      let res = [];
+      this.origin.forEach((i) => {
+        res.push([...i.toUpperCase()]);
+      });
+      return res;
+    },
+  },
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      if (mpvuePlatform === 'wx') {
-        mpvue.switchTab({ url })
-      } else {
-        mpvue.navigateTo({ url })
+    showMail() {
+      this.show = !this.show;
+    },
+    // todo 用于修改分钟数的方法
+    update234(type) {
+      let toLine = [];
+      switch (type) {
+        case "0":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 3, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case "five":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]);
+          toLine = [...this.white[3]];
+          for (let i = 0; i < toLine.length; i++) {
+            if (i < 9) {
+              toLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 3, toLine);
+          break;
+        case "ten":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          toLine = [...this.white[3]];
+          for (let i = 0; i < toLine.length; i++) {
+            if (i < 9) {
+              toLine[i] = 0;
+            }
+          }
+          toLine[5] = 1;
+          toLine[6] = 1;
+          toLine[7] = 1;
+          this.$set(this.white, 3, toLine);
+          break;
+        case "quarter":
+          this.$set(this.white, 1, [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0]);
+          this.$set(this.white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          toLine = [...this.white[3]];
+          for (let i = 0; i < toLine.length; i++) {
+            if (i < 9) {
+              toLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 3, toLine);
+          break;
+        case "twenty":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]);
+          toLine = [...this.white[3]];
+          for (let i = 0; i < toLine.length; i++) {
+            if (i < 9) {
+              toLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 3, toLine);
+          break;
+        case "twentyfive":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]);
+          toLine = [...this.white[3]];
+          for (let i = 0; i < toLine.length; i++) {
+            if (i < 9) {
+              toLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 3, toLine);
+          break;
+        case "half":
+          this.$set(this.white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 3, [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]);
+          break;
       }
     },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
-    }
   },
-
-  created () {
-    // let app = getApp()
-  }
-}
+  watch: {
+    minT: function () {
+      // todo
+      let hour = new Date().getHours();
+      if (hour < 12) {
+        this.active.state = "am";
+        this.$set(this.white, 0, [1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0]);
+        this.active.outHour = hour;
+      } else if (hour === 12) {
+        this.active.state = "pm";
+        this.$set(this.white, 0, [1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1]);
+        this.active.outHour = hour;
+      } else {
+        this.active.state = "pm";
+        this.$set(this.white, 0, [1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1]);
+        this.active.outHour = hour - 12;
+      }
+      // todo
+      let min = new Date().getMinutes();
+      console.log(min);
+      if (0 <= min && min < 5) {
+        this.active.min = "0";
+        this.update234(this.active.min);
+        this.active.prep = "oclock";
+      } else if (5 <= min && min < 10) {
+        this.active.min = "five";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (10 <= min && min < 15) {
+        this.active.min = "ten";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (15 <= min && min < 20) {
+        this.active.min = "quarter";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (20 <= min && min < 25) {
+        this.active.min = "twenty";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (25 <= min && min < 30) {
+        this.active.min = "twentyfive";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (30 <= min && min < 35) {
+        this.active.min = "half";
+        this.update234(this.active.min);
+        this.active.prep = "past";
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 0;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 1;
+        }
+        this.$set(this.white, 4, pastLine);
+        // todo
+      } else if (35 <= min && min < 40) {
+        this.active.min = "twentyfive";
+        this.update234(this.active.min);
+        this.active.prep = "to";
+        this.active.outHour += 1;
+        let toLine = [...this.white[3]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 1;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 0;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (40 <= min && min < 45) {
+        this.active.min = "twenty";
+        this.update234(this.active.min);
+        this.active.prep = "to";
+        this.active.outHour += 1;
+        let toLine = [...[...this.white[3]]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 1;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 0;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (45 <= min && min < 50) {
+        this.active.min = "quarter";
+        this.update234(this.active.min);
+        this.active.prep = "to";
+        this.active.outHour += 1;
+        let toLine = [...[...this.white[3]]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 1;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 0;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (50 <= min && min < 55) {
+        this.active.min = "ten";
+        this.update234(this.active.min);
+        this.active.prep = "to";
+        this.active.outHour += 1;
+        let toLine = [...[...this.white[3]]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 1;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 0;
+        }
+        this.$set(this.white, 4, pastLine);
+      } else if (55 <= min && min < 60) {
+        this.active.min = "five";
+        this.update234(this.active.min);
+        this.active.prep = "to";
+        this.active.outHour += 1;
+        let toLine = [...[...this.white[3]]];
+        for (let j = 9; j < 11; j++) {
+          toLine[j] = 1;
+        }
+        this.$set(this.white, 3, toLine);
+        let pastLine = [...this.white[4]];
+        for (let i = 0; i < 4; i++) {
+          pastLine[i] = 0;
+        }
+        this.$set(this.white, 4, pastLine);
+      }
+      switch (this.active.outHour) {
+        case 1:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 2:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 3:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 4:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 5:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 6:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 7:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 8:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 9:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 10:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 11:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+        case 12:
+          this.$set(this.white, 4, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          this.$set(this.white, 8, [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]);
+          this.$set(this.white, 9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          break;
+      }
+      let clockLine, pastLine, toLine;
+      switch (this.active.prep) {
+        case "oclock":
+          toLine = [...this.white[3]];
+          toLine[10] = 0;
+          toLine[9] = 0;
+          this.$set(this.white, 3, toLine);
+          pastLine = [...this.white[4]];
+          pastLine[0] = 0;
+          pastLine[1] = 0;
+          pastLine[2] = 0;
+          pastLine[3] = 0;
+          this.$set(this.white, 4, pastLine);
+          clockLine = [...this.white[9]];
+          for (let i = 0; i < clockLine.length; i++) {
+            if (i >= 5) {
+              clockLine[i] = 1;
+            }
+          }
+          this.$set(this.white, 9, clockLine);
+          break;
+        case "past":
+          toLine = [...this.white[3]];
+          toLine[10] = 0;
+          toLine[9] = 0;
+          this.$set(this.white, 3, toLine);
+          pastLine = [...this.white[4]];
+          pastLine[0] = 1;
+          pastLine[1] = 1;
+          pastLine[2] = 1;
+          pastLine[3] = 1;
+          this.$set(this.white, 4, pastLine);
+          clockLine = [...this.white[9]];
+          for (let i = 0; i < clockLine.length; i++) {
+            if (i >= 5) {
+              clockLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 9, clockLine);
+          break;
+        case "to":
+          toLine = [...this.white[3]];
+          toLine[10] = 1;
+          toLine[9] = 1;
+          this.$set(this.white, 3, toLine);
+          pastLine = [...this.white[4]];
+          pastLine[0] = 0;
+          pastLine[1] = 0;
+          pastLine[2] = 0;
+          pastLine[3] = 0;
+          this.$set(this.white, 4, pastLine);
+          clockLine = [...this.white[9]];
+          for (let i = 0; i < clockLine.length; i++) {
+            if (i >= 5) {
+              clockLine[i] = 0;
+            }
+          }
+          this.$set(this.white, 9, clockLine);
+          break;
+      }
+      console.log(
+        `${this.active.min}-${this.active.prep}-${this.active.outHour}-${this.active.state}`
+      );
+      // console.log(this.white);
+      // this.$set(this.white, 9, [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]);
+    },
+  },
+};
 </script>
 
-<style scoped>
-.userinfo {
+<style>
+body {
+  margin: 0;
+}
+#appClock {
+  position: relative;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.about {
+  /* position: absolute;
+  bottom: 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%; */
+  height: 0.4rem;
+  line-height: 0.4rem;
+  font-size: 0.2rem;
+  color: #222;
+}
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.clock-wrapper {
+  /* position: absolute;
+  left: 50%;
+  top: 50%; */
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  width: 5rem;
+  height: 5rem;
+  background: #222;
+  /* transform: translate(-50%, -50%); */
+  /* box-shadow: 0px 0px 8px 8px #666; */
+  animation: box 2s ease-in-out infinite;
+}
+.clock-row {
+  display: flex;
+  flex-direction: row;
+}
+.clock {
+  width: 0.5rem;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  font-size: 0.3rem;
+  vertical-align: middle;
+  text-align: center;
+  color: #000;
+}
+.white {
+  color: #e3e3e3;
 }
 
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
-
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
+@keyframes box {
+  0% {
+    box-shadow: 0px 0px 4px 0px #666;
+  }
+  50% {
+    box-shadow: 0px 0px 4px 3px #666;
+  }
+  100% {
+    box-shadow: 0px 0px 4px 0px #666;
+  }
 }
 </style>
