@@ -2,29 +2,33 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  parser: "babel-eslint",
   parserOptions: {
-    sourceType: 'module'
+    sourceType: "module",
   },
   env: {
     browser: false,
     node: true,
-    es6: true
+    es6: true,
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
-  extends: 'standard',
+  extends: "standard",
   // required to lint *.vue files
-  plugins: [
-    'html'
-  ],
+  plugins: ["html"],
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow paren-less arrow functions
-    'arrow-parens': 0,
+    "arrow-parens": 0,
     // allow async-await
-    'generator-star-spacing': 0,
+    "generator-star-spacing": 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
+    semi: 0,
+    quotes: 0,
+    yoda: 0,
+    "comma-dangle": 0,
+    "space-before-function-paren": 0,
+    "no-tabs": 0,
   },
   globals: {
     App: true,
@@ -37,6 +41,6 @@ module.exports = {
     getPage: true,
     requirePlugin: true,
     mpvue: true,
-    mpvuePlatform: true
-  }
-}
+    mpvuePlatform: true,
+  },
+};
