@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="clock-wrapper">
-      <div class="clock-row" v-for="(item, idx) in matrix" :key="item + idx">
+      <div class="clock-row" v-for="(item, idx) in matrix" :key="item">
         <div
           class="clock"
           v-for="(letter, index) in item"
