@@ -1,27 +1,32 @@
 <template>
-  <div id="appClock">
+  <div id="appClock" :class="[isSimple?'center':'start', isDark?'dark':'light']">
     <div class="main-clock">
       <QlockTwo />
     </div>
-    <div>Times on Flagstone</div>
-    <div class="notes">
-      <input 
-        class="input" 
-        type="text" 
-        ref="input" 
-        placeholder="此时此刻，想立个flag?" 
-        v-model="text" 
-        :selection-start="0" 
-        :selection-end="text.length" 
+    <div v-show="!isSimple" :class="[isDark?'dark-font':'light-font']">Times on Flagstone</div>
+    <div v-show="!isSimple" class="notes">
+      <input
+        class="input"
+        type="text"
+        ref="input"
+        placeholder="此时此刻，想立个flag?"
+        v-model="text"
+        :selection-start="0"
+        :selection-end="text.length"
         @click="selectAll"
+        :class="[isDark?'dark-input':'']"
       />
-      <button @click="saveText()" :class="{active: buttonText==='已保存'}">{{buttonText}}</button>
+      <button @click="saveText()" :class="[buttonText==='已保存'?'active':'', isDark?'dark dark-font':'light light-font']">{{buttonText}}</button>
     </div>
-    <div class="explain">
+    <div v-show="!isSimple" class="explain" :class="[isDark?'dark-font':'light-font']">
       <p>石板时钟，英文名称是 Time on Flagstone;</p>
       <p>希望你也可以在这里立一个flag。</p>
       <p>注意一次只立一个就好啦。</p>
       <p>最重要的是要完成它。加油^^</p>
+    </div>
+    <div class="btn-group">
+      <button class="btn-simple" :class="[isDark?'dark dark-font':'light light-font']" @click="toggleSimple()">{{isSimple?"简":"全"}}</button>
+      <button class="btn-simple" :class="[isDark?'dark dark-font':'light light-font']" @click="toggleDark()">{{isDark?"月":"日"}}</button>
     </div>
   </div>
 </template>
@@ -33,12 +38,22 @@ export default {
   data() {
     return {
       text: '',
-      buttonText: '确定'
+      buttonText: '确定',
+      isSimple: false,
+      isDark: true
     };
   },
   mounted() {
     wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] });
     const store = wx.getStorageSync("text");
+    const simple = wx.getStorageSync("isSimple");
+    const dark = wx.getStorageSync("isDark");
+    if (simple !== null) {
+      this.isSimple = simple
+    }
+    if (dark !== null) {
+      this.isDark = dark
+    }
     if (store !== null) {
       console.log("getStorageSync: " + store);
       this.text = store;
@@ -62,6 +77,14 @@ export default {
       }, 2000);
     },
     selectAll() {},
+    toggleSimple() {
+      this.isSimple = !this.isSimple
+      wx.setStorageSync("isSimple", this.isSimple);
+    },
+    toggleDark() {
+      this.isDark = !this.isDark
+      wx.setStorageSync("isDark", this.isDark);
+    }
   },
   onShareAppMessasge() {
     return {
@@ -87,13 +110,35 @@ body {
 }
 #appClock {
   position: relative;
-  background: rgb(250,250,250);
+
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   /* padding: 0.5rem 0; */
+}
+.light {
+  background: rgb(250,250,250);
+}
+.light-font {
+  color: #000;
+}
+.dark {
+  background-color: #191919;
+}
+.dark-font {
+  color: rgb(128,128,128);
+}
+.dark-input {
+  background-color: rgb(55,55,55)!important;
+  border: none!important;
+}
+.center {
+  justify-content: center;
+}
+.start {
+  justify-content: flex-start;
 }
 .main-clock {
   margin: 0.5rem 0;
@@ -134,5 +179,17 @@ button {
   line-height: 0.4rem;
   font-size: 0.2rem;
   color: #222;
+}
+.btn-group {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.btn-simple {
+  font-size: 0.25rem;
 }
 </style>

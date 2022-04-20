@@ -532,13 +532,13 @@ export default {
 
 @keyframes box {
   0% {
-    box-shadow: 0px 0px 4px 0px #666;
+    box-shadow: 0px 0px 2px 0px rgba(128,128,128,0.2);
   }
   50% {
-    box-shadow: 0px 0px 4px 3px #666;
+    box-shadow: 0px 0px 2px 2px rgba(128,128,128,0.2);
   }
   100% {
-    box-shadow: 0px 0px 4px 0px #666;
+    box-shadow: 0px 0px 2px 0px rgba(128,128,128,0.2);
   }
 }
 </style>
