@@ -1,9 +1,8 @@
 {
   "pages": ["pages/index/main", "pages/logs/main"],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#ddd",
     "navigationBarTitleText": "石板时钟",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#191919",
+    "navigationBarTextStyle": "white"
   }
 }
