@@ -46,14 +46,6 @@ export default {
   mounted() {
     wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] });
     const store = wx.getStorageSync("text");
-    const simple = wx.getStorageSync("isSimple");
-    const dark = wx.getStorageSync("isDark");
-    if (simple !== null) {
-      this.isSimple = simple
-    }
-    if (dark !== null) {
-      this.isDark = dark
-    }
     if (store !== null) {
       console.log("getStorageSync: " + store);
       this.text = store;
@@ -79,11 +71,9 @@ export default {
     selectAll() {},
     toggleSimple() {
       this.isSimple = !this.isSimple
-      wx.setStorageSync("isSimple", this.isSimple);
     },
     toggleDark() {
       this.isDark = !this.isDark
-      wx.setStorageSync("isDark", this.isDark);
     }
   },
   onShareAppMessasge() {
