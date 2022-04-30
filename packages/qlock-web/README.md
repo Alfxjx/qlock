@@ -1,5 +1,9 @@
 # qlock-web
 
+web version for [Alfxjx/qlock](https://github.com/Alfxjx/qlock)
+
+[visit online](https://qlock-web.vercel.app/)
+
 ## Project setup
 ```
 npm install
