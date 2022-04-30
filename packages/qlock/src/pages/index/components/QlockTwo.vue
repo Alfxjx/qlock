@@ -254,7 +254,11 @@ export default {
         this.active.min = "twentyfive";
         this.update234(this.active.min);
         this.active.prep = "to";
-        this.active.outHour += 1;
+        if (this.active.outHour === 12) {
+					this.active.outHour = 1;
+				} else {
+					this.active.outHour += 1;
+				}
         let toLine = [...this.white[3]];
         for (let j = 9; j < 11; j++) {
           toLine[j] = 1;
@@ -269,7 +273,11 @@ export default {
         this.active.min = "twenty";
         this.update234(this.active.min);
         this.active.prep = "to";
-        this.active.outHour += 1;
+        if (this.active.outHour === 12) {
+					this.active.outHour = 1;
+				} else {
+					this.active.outHour += 1;
+				}
         let toLine = [...[...this.white[3]]];
         for (let j = 9; j < 11; j++) {
           toLine[j] = 1;
@@ -284,7 +292,11 @@ export default {
         this.active.min = "quarter";
         this.update234(this.active.min);
         this.active.prep = "to";
-        this.active.outHour += 1;
+        if (this.active.outHour === 12) {
+					this.active.outHour = 1;
+				} else {
+					this.active.outHour += 1;
+				}
         let toLine = [...[...this.white[3]]];
         for (let j = 9; j < 11; j++) {
           toLine[j] = 1;
@@ -299,7 +311,11 @@ export default {
         this.active.min = "ten";
         this.update234(this.active.min);
         this.active.prep = "to";
-        this.active.outHour += 1;
+        if (this.active.outHour === 12) {
+					this.active.outHour = 1;
+				} else {
+					this.active.outHour += 1;
+				}
         let toLine = [...[...this.white[3]]];
         for (let j = 9; j < 11; j++) {
           toLine[j] = 1;
@@ -314,7 +330,11 @@ export default {
         this.active.min = "five";
         this.update234(this.active.min);
         this.active.prep = "to";
-        this.active.outHour += 1;
+ 				if (this.active.outHour === 12) {
+					this.active.outHour = 1;
+				} else {
+					this.active.outHour += 1;
+				}
         let toLine = [...[...this.white[3]]];
         for (let j = 9; j < 11; j++) {
           toLine[j] = 1;
