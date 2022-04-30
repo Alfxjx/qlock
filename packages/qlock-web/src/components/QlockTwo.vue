@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="main" :style="{ '--block': computedWidth }">
 		<div class="clock-wrapper">
 			<div
 				class="clock-row"
@@ -69,6 +69,18 @@ export default {
 				res.push(arr);
 			});
 			return res;
+		},
+		computedWidth() {
+			let width = document.documentElement.clientWidth;
+			if (width > 1920) {
+				return "4rem";
+			} else if (width > 1280) {
+				return "3rem";
+			} else if (width > 600) {
+				return "2rem";
+			} else {
+				return "1.75rem";
+			}
 		},
 	},
 	methods: {
@@ -527,7 +539,6 @@ export default {
 	/* flex: 1; */
 	display: flex;
 	align-items: center;
-	--block: 3rem;
 }
 .clock-wrapper {
 	/* position: absolute;
