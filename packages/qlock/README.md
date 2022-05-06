@@ -1,5 +1,7 @@
 # qlock
 
+[web demo 在线演示](https://qlock-web.vercel.app/)
+
 > A Mpvue project
 
 类似于[QlockTwo](http://www.qlocktwo.com/)的时钟小程序，包含计时和小记功能（v1.0），支持图片形式分享(v1.1),还有不同的主题颜色替换(v1,2)
