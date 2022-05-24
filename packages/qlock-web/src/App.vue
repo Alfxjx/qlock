@@ -3,6 +3,7 @@
 		<div class="wrapper">
 			<QlockTwo></QlockTwo>
 			<footer>
+				<button @click="toggleExpand()">🙌</button>
 				<button @click="toggleTheme()">{{ icon }}</button>
 				QlockTwo © by
 				<a
@@ -53,6 +54,43 @@ export default {
 		toggleTheme() {
 			this.computedBg = this.computedBg === "#f2f4f6" ? "#191919" : "#f2f4f6";
 		},
+		toggleExpand() {
+			function requestFullScreen(element) {
+				if (!element) {
+					element = document.body;
+				}
+				if (element.requestFullscreen) {
+					element.requestFullscreen();
+				} else if (element.msRequestFullscreen) {
+					element.msRequestFullscreen();
+				} else if (element.mozRequestFullScreen) {
+					element.mozRequestFullScreen();
+				} else if (element.webkitRequestFullScreen) {
+					element.webkitRequestFullScreen();
+				}
+			}
+			function exitFullScreen() {
+				if (document.cancelFullScreen) {
+					document.cancelFullScreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitCancelFullScreen) {
+					document.webkitCancelFullScreen();
+				} else if (document.msExitFullscreen) {
+					document.msExitFullscreen();
+				}
+			}
+			const ele =
+				document.fullscreenElement ||
+				document.mozFullScreenElement ||
+				document.webkitFullscreenElement ||
+				document.msFullscreenElement;
+			if (ele) {
+				exitFullScreen();
+			} else {
+				requestFullScreen();
+			}
+		},
 	},
 };
 </script>
@@ -92,6 +130,7 @@ button {
 	font-family: Monaco, sans-serif;
 	border-radius: 4px;
 	background: #0bc2bf1a;
+	margin: 0 4px;
 }
 button:hover {
 	border: 1px solid #0bc2bf;
