@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build-pre": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "babel": "babel ./dist/js/app.js --out-file ./dist/js/app.js --presets es3",
+    "vendor": "babel ./dist/js/chunk-vendors.js --out-file ./dist/js/chunk-vendors.js --presets es3",
+    "build": "npm run build-pre && npm run babel && npm run vendor"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -15,7 +18,10 @@
     "@vue/cli-plugin-babel": "~4.5.12",
     "@vue/cli-plugin-eslint": "~4.5.12",
     "@vue/cli-service": "~4.5.12",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
+    "babel-preset-es3": "^1.0.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.6.11"
