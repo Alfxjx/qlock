@@ -26,7 +26,7 @@
         "icons/clock.png",
         "icons/icons.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "work.abandon.alfxjx.qlock",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
