@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'VictorMono';
+    src: url('./assets/VictorMono-Medium-12.otf');
+}
+@font-face {
+    font-family: 'GoodfonT';
+    src: url('./assets/GoodfonT-NET-XS03-2.ttf');
+}
