@@ -53,10 +53,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 400,
+        "height": 720,
         "resizable": true,
         "title": "Qlock",
-        "width": 400
+        "width": 720,
+        "alwaysOnTop": true
       }
     ]
   }

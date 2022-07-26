@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import QlockTwo from './components/QlockTwo.vue'
+import { Icon } from '@iconify/vue';
+function onReload() {
+  window.location.reload()
+}
 </script>
 
 <template>
@@ -13,6 +17,9 @@ import QlockTwo from './components/QlockTwo.vue'
         <a href="https://github.com/Alfxjx/qlock-web" target="_blank" rel="noopener noreferrer">
           <span>♥</span>
         </a>
+      </footer>
+      <footer>
+        <Icon class="icons" @click="onReload()" icon="bytesize:reload" />
       </footer>
     </div>
   </div>
@@ -69,5 +76,9 @@ span.copy {
 
 span {
   color: red;
+}
+
+.icons {
+  cursor: pointer;
 }
 </style>

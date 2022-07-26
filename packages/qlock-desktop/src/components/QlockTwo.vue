@@ -1,17 +1,9 @@
 <template>
 	<div class="main" :style="{ '--block': computedWidth }">
 		<div class="clock-wrapper">
-			<div
-				class="clock-row"
-				v-for="(item, idx) in matrix"
-				:key="JSON.stringify(item)"
-			>
-				<div
-					class="clock"
-					v-for="(letter, index) in item"
-					:key="letter.value"
-					:class="{ white: white[idx][index] === 1 }"
-				>
+			<div class="clock-row" v-for="(item, idx) in matrix" :key="JSON.stringify(item)">
+				<div class="clock" v-for="(letter, index) in item" :key="letter.value"
+					:class="{ white: white[idx][index] === 1 }">
 					{{ letter.name }}
 				</div>
 			</div>
@@ -72,11 +64,16 @@ export default {
 		},
 		computedWidth() {
 			let width = document.documentElement.clientWidth;
+			console.log(width);
 			if (width > 1920) {
-				return "4rem";
+				return "5rem";
 			} else if (width > 1280) {
 				return "3rem";
+			} else if (width > 960) {
+				return "2.5rem";
 			} else if (width > 600) {
+				return "3rem";
+			} else if (width > 400) {
 				return "2rem";
 			} else {
 				return "1.75rem";
@@ -84,9 +81,9 @@ export default {
 		},
 	},
 	methods: {
-        $set(data, key, value){
-            data[key] = value;
-        },
+		$set(data, key, value) {
+			data[key] = value;
+		},
 		// 用于修改分钟数的方法
 		update234(type) {
 			let toLine = [];
@@ -541,11 +538,10 @@ export default {
 .main {
 	/* flex: 1; */
 	display: flex;
-    justify-content: center;
+	justify-content: center;
 	align-items: center;
-    width: 320px;
-    height: 320px;
 }
+
 .clock-wrapper {
 	/* position: absolute;
   left: 50%;
@@ -559,29 +555,35 @@ export default {
 	/* box-shadow: 0px 0px 8px 8px #666; */
 	animation: box 2s ease-in-out infinite;
 }
+
 .clock-row {
 	display: flex;
 	flex-direction: row;
 }
+
 .clock {
 	width: var(--block);
 	height: var(--block);
 	line-height: var(--block);
-	font-size: calc(0.5 * var(--block));
+	font-size: calc(0.65 * var(--block));
 	vertical-align: middle;
 	text-align: center;
 	color: #000;
 }
+
 .white {
 	color: #e3e3e3;
 }
+
 @keyframes box {
 	0% {
 		box-shadow: 0px 0px 2px 0px rgba(128, 128, 128, 0.2);
 	}
+
 	50% {
 		box-shadow: 0px 0px 2px 2px rgba(128, 128, 128, 0.2);
 	}
+
 	100% {
 		box-shadow: 0px 0px 2px 0px rgba(128, 128, 128, 0.2);
 	}
