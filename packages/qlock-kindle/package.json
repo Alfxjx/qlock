@@ -1,0 +1,21 @@
+{
+  "name": "qlock-kindle",
+  "version": "0.0.0",
+  "description": "kindle version for qlock",
+  "author": "xujianxiang <584972029@qq.com>",
+  "homepage": "https://github.com/Alfxjx/qlock#readme",
+  "license": "ISC",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alfxjx/qlock.git"
+  },
+  "scripts": {
+    "start": "http-server ./src"
+  },
+  "bugs": {
+    "url": "https://github.com/Alfxjx/qlock/issues"
+  }
+}

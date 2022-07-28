@@ -1,0 +1,46 @@
+.main {
+	/* flex: 1; */
+	display: flex;
+	align-items: center;
+}
+.clock-wrapper {
+	/* position: absolute;
+  left: 50%;
+  top: 50%; */
+	padding: calc(var(--block) / 3);
+	border-radius: calc(var(--block) / 3);
+	width: calc(10 * var(--block));
+	height: calc(10 * var(--block));
+	background: #222;
+	/* transform: translate(-50%, -50%); */
+	/* box-shadow: 0px 0px 8px 8px #666; */
+	animation: box 2s ease-in-out infinite;
+}
+.clock-row {
+	display: flex;
+	flex-direction: row;
+}
+.clock {
+	width: var(--block);
+	height: var(--block);
+	line-height: var(--block);
+	font-size: calc(0.5 * var(--block));
+	vertical-align: middle;
+	text-align: center;
+	color: #000;
+}
+.white {
+	color: #e3e3e3;
+}
+
+@keyframes box {
+	0% {
+		box-shadow: 0px 0px 2px 0px rgba(128, 128, 128, 0.2);
+	}
+	50% {
+		box-shadow: 0px 0px 2px 2px rgba(128, 128, 128, 0.2);
+	}
+	100% {
+		box-shadow: 0px 0px 2px 0px rgba(128, 128, 128, 0.2);
+	}
+}
