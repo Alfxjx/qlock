@@ -31,7 +31,8 @@ export default function QlockDemo() {
 
     const [matrix, setMatrix] = useState<MatItem[][]>([]);
     const [computedWidth, setComputedWidth] = useState('1.75rem');
-    const white = new Array(10).fill(new Array(11).fill(0));
+
+    const [white, setWhite] = useState(new Array(10).fill(new Array(11).fill(0)))
 
     const [active, setActive] = useState({
         min: "",
@@ -87,6 +88,79 @@ export default function QlockDemo() {
     }, []);
 
     useEffect(() => {
+        function update234(type: "0" | "five" | "ten" | "quarter" | "twenty" | "twentyfive" | "half" | string) {
+            let toLine = [];
+            switch (type) {
+                case "0":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 3, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    break;
+                case "five":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]);
+                    toLine = [...white[3]];
+                    for (let i = 0; i < toLine.length; i++) {
+                        if (i < 9) {
+                            toLine[i] = 0;
+                        }
+                    }
+                    setFunc(white, 3, toLine);
+                    break;
+                case "ten":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    toLine = [...white[3]];
+                    for (let i = 0; i < toLine.length; i++) {
+                        if (i < 9) {
+                            toLine[i] = 0;
+                        }
+                    }
+                    toLine[5] = 1;
+                    toLine[6] = 1;
+                    toLine[7] = 1;
+                    setFunc(white, 3, toLine);
+                    break;
+                case "quarter":
+                    setFunc(white, 1, [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0]);
+                    setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    toLine = [...white[3]];
+                    for (let i = 0; i < toLine.length; i++) {
+                        if (i < 9) {
+                            toLine[i] = 0;
+                        }
+                    }
+                    setFunc(white, 3, toLine);
+                    break;
+                case "twenty":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]);
+                    toLine = [...white[3]];
+                    for (let i = 0; i < toLine.length; i++) {
+                        if (i < 9) {
+                            toLine[i] = 0;
+                        }
+                    }
+                    setFunc(white, 3, toLine);
+                    break;
+                case "twentyfive":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]);
+                    toLine = [...white[3]];
+                    for (let i = 0; i < toLine.length; i++) {
+                        if (i < 9) {
+                            toLine[i] = 0;
+                        }
+                    }
+                    setFunc(white, 3, toLine);
+                    break;
+                case "half":
+                    setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+                    setFunc(white, 3, [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]);
+                    break;
+            }
+        }
         let hour = new Date().getHours();
         if (hour < 12) {
             setActive({ ...active, state: "am" });
@@ -97,7 +171,7 @@ export default function QlockDemo() {
                 setActive({ ...active, outHour: hour })
             }
         } else if (hour === 12) {
-            setActive({ ...active, state: "pm" });
+            setActive(active => ({ ...active, state: "pm" }));
             setFunc(white, 0, [1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1]);
             setActive({ ...active, outHour: hour })
         } else {
@@ -107,10 +181,12 @@ export default function QlockDemo() {
 
         }
         let min = new Date().getMinutes();
+        console.log(`${hour}:${min}:minT:${minT}`);
+
         if (0 <= min && min < 5) {
             setActive({ ...active, min: "0" })
             update234(active.min);
-            setActive({ ...active, prep: "oclock"})
+            setActive({ ...active, prep: "oclock" })
         } else if (5 <= min && min < 10) {
             setActive({ ...active, min: "five" })
             update234(active.min);
@@ -255,7 +331,7 @@ export default function QlockDemo() {
         } else if (50 <= min && min < 55) {
             setActive({ ...active, min: "ten" })
             update234(active.min);
-            
+
             if (active.outHour === 12) {
                 setActive({ ...active, outHour: 1 })
             } else {
@@ -452,92 +528,24 @@ export default function QlockDemo() {
         console.log(
             `${active.min}-${active.prep}-${active.outHour}-${active.state}`
         );
-    }, [minT])
+    }, [minT, active, white])
 
-    function setFunc(arr: number[][], idx: number, val: number[]) { }
-
-    function update234(type: "0" | "five" | "ten" | "quarter" | "twenty" | "twentyfive" | "half" | string) {
-        let toLine = [];
-        switch (type) {
-            case "0":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 3, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                break;
-            case "five":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]);
-                toLine = [...white[3]];
-                for (let i = 0; i < toLine.length; i++) {
-                    if (i < 9) {
-                        toLine[i] = 0;
-                    }
-                }
-                setFunc(white, 3, toLine);
-                break;
-            case "ten":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                toLine = [...white[3]];
-                for (let i = 0; i < toLine.length; i++) {
-                    if (i < 9) {
-                        toLine[i] = 0;
-                    }
-                }
-                toLine[5] = 1;
-                toLine[6] = 1;
-                toLine[7] = 1;
-                setFunc(white, 3, toLine);
-                break;
-            case "quarter":
-                setFunc(white, 1, [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0]);
-                setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                toLine = [...white[3]];
-                for (let i = 0; i < toLine.length; i++) {
-                    if (i < 9) {
-                        toLine[i] = 0;
-                    }
-                }
-                setFunc(white, 3, toLine);
-                break;
-            case "twenty":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]);
-                toLine = [...white[3]];
-                for (let i = 0; i < toLine.length; i++) {
-                    if (i < 9) {
-                        toLine[i] = 0;
-                    }
-                }
-                setFunc(white, 3, toLine);
-                break;
-            case "twentyfive":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]);
-                toLine = [...white[3]];
-                for (let i = 0; i < toLine.length; i++) {
-                    if (i < 9) {
-                        toLine[i] = 0;
-                    }
-                }
-                setFunc(white, 3, toLine);
-                break;
-            case "half":
-                setFunc(white, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 2, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-                setFunc(white, 3, [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]);
-                break;
-        }
+    function setFunc(arr: number[][], idx: number, val: number[]) {
+        arr[idx] = val;
+        const newArr = [...arr];
+        setWhite([...newArr]);
     }
 
+
+
     return (
-        <div className="main" style={{ '--block': computedWidth }}>
-            <div className="clock-wrapper">
+        <div className="flex items-center main" style={{ '--block': computedWidth }}>
+            <div className="p-[calc(var(--block)/2)] rounded-[calc(var(--block)/2)] w-[calc(11*var(--block))] h-[calc(11*var(--block))] bg-gray-900 clock-wrapper animate-box">
                 {matrix.map((item, idx) => (
-                    <div className="clock-row" key={JSON.stringify(item)}>
+                    <div className="flex flex-row clock-row" key={JSON.stringify(item)}>
                         {item.map((letter, index) => (
                             <div
-                                className={`clock ${white[idx][index] === 1 ? 'white' : ''}`}
+                                className={`w-[var(--block)] h-[var(--block)] leading-[var(--block)] text-center clock ${white[idx][index] === 1 ? 'text-gray-200' : 'text-black'}`}
                                 key={letter.value}
                             >
                                 {letter.name}
