@@ -30,7 +30,7 @@ export default function Footer() {
             href="https://abandon.work/"
             className="hover:underline"
           >
-            alfr3d
+            Alfxjx
           </a>
           . All Rights Reserved.
         </span>

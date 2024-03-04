@@ -6,8 +6,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <FeatureCards />
-      <Features />
+      {/* <FeatureCards />
+      <Features /> */}
     </main>
   )
 }
