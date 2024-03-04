@@ -8,7 +8,7 @@ import { HeroHeader, ContentSection } from "@/types/contents"
  ==================== */
 
 export const heroHeader: HeroHeader = {
-  header: `Decorate your screen with QLOCK.`,
+  header: `Decorate your screen with Qlock.`,
   subheader: `Easy to setup. Customizable. Responsive. Crossplatform.`,
   image: `/q.png`,
 }
